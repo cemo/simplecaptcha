@@ -46,7 +46,7 @@ public class DefaultWordRenderer implements WordRenderer {
      * Render a word onto a BufferedImage.
      * 
      * @param word The word to be rendered.
-     * @param bi  The BufferedImage onto which the word will be painted on to
+     * @param image The BufferedImage onto which the word will be painted on to
      */
     public void render(String word, BufferedImage image) {
         Graphics2D g = image.createGraphics();
@@ -57,10 +57,10 @@ public class DefaultWordRenderer implements WordRenderer {
         hints.add(new RenderingHints(RenderingHints.KEY_RENDERING,
                 RenderingHints.VALUE_RENDER_QUALITY));
         g.setRenderingHints(hints);
-
         g.setColor(_color);
         FontRenderContext frc = g.getFontRenderContext();
-        int startPosX = 25;
+
+        int startPosX = image.getWidth() / 10;
         char[] wc = word.toCharArray();
         Random generator = new Random();
         for (char element : wc) {
@@ -72,8 +72,8 @@ public class DefaultWordRenderer implements WordRenderer {
             GlyphVector gv = itFont.createGlyphVector(frc, itchar);
             double charWitdth = gv.getVisualBounds().getWidth();
 
-            g.drawChars(itchar, 0, itchar.length, startPosX, 35);
-            startPosX = startPosX + (int) charWitdth;
+            g.drawChars(itchar, 0, itchar.length, startPosX, (int) (image.getHeight() + gv.getVisualBounds().getHeight())/2);
+            startPosX = startPosX + (int) charWitdth + 1;
         }
     }
 }
